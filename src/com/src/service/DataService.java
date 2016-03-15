@@ -2,9 +2,12 @@ package com.src.service;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Date;
+import java.util.List;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
@@ -82,7 +85,12 @@ public class DataService {
 		try {
 			document = reader.read(new File(dataPath.substring(6, userPath.length())));
 			Element root = document.getRootElement();
-			
+			List list = root.content();
+			Element element = DocumentHelper.createElement("item");
+			element.addAttribute("id", payView.getId());
+			element.addAttribute("date", payView.getDate());
+			element.addAttribute("info", payView.getInfo());
+			list.add(0, element);
 			XMLWriter writer = new XMLWriter(new FileWriter(new File(dataPath.substring(6, userPath.length()))));  
             writer.write(document);
             writer.close(); 
@@ -99,6 +107,8 @@ public class DataService {
 
 	public static void main(String[] args) {
 		DataService dataService = new DataService();
-		dataService.initUserPanel();
+		PayView payView = new PayView("111111111111", new Date().toString(), "aaaaaaaaaa");
+		
+		dataService.addPayView(payView);
 	}
 }

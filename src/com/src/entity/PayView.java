@@ -31,6 +31,10 @@ public class PayView {
 		this.info = info;
 	}
 	
-	
+	public PayView(String id, String date, String info) {
+		this.id = id;
+		this.date = date;
+		this.info = info;
+	}
 
 }
