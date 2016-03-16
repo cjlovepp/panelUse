@@ -24,6 +24,9 @@ import javax.swing.event.ChangeListener;
 
 import org.dom4j.Element;
 
+import com.src.entity.ButtonEditor;
+import com.src.entity.ButtonRenderer;
+import com.src.entity.MyTableButton;
 import com.src.entity.User;
 import com.src.entity.myModel;
 import com.src.service.DataService;
@@ -70,12 +73,17 @@ public class mainframe {
 		mainPanel.add(BorderLayout.NORTH, toolBar);
 		mainPanel.add(BorderLayout.CENTER, jScrollPane);
 		
+		jTable.setRowHeight(35);
+		jTable.getColumn("操作").setWidth(100);
+		
+		jTable.getColumn("操作").setCellRenderer(new ButtonRenderer());
+		//jTable.getColumn("操作").setCellEditor(new ButtonEditor(new JTextField()));
+		
 		
 		//查询按钮事件
 		queryBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 				jTable.setModel(new myModel(idInput.getText()));
 			}
 		});
