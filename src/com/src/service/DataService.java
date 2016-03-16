@@ -2,6 +2,7 @@ package com.src.service;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -85,7 +86,7 @@ public class DataService {
 		try {
 			document = reader.read(new File(dataPath.substring(6, userPath.length())));
 			Element root = document.getRootElement();
-			List list = root.content();
+			List<Element> list = root.content();
 			Element element = DocumentHelper.createElement("item");
 			element.addAttribute("id", payView.getId());
 			element.addAttribute("date", payView.getDate());
@@ -102,6 +103,28 @@ public class DataService {
 		}
 	}
 	
+	/**
+	 * 根据id查询,暂不考虑模糊查询
+	 * @param id
+	 * @return
+	 */
+	public List<Element> findViewById(String id){
+		String xpath = "/Items/*";
+		if(id != null && !id.equals("")){
+			xpath = "/Items/item[@id='"+id+"']";
+		}
+		SAXReader reader = new SAXReader();
+		Document document;
+		try {
+			document = reader.read(new File(dataPath.substring(6, userPath.length())));
+			List<Element> list = document.selectNodes(xpath);
+			return list;
+		} catch (DocumentException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	
 	
 
@@ -110,5 +133,6 @@ public class DataService {
 		PayView payView = new PayView("111111111111", new Date().toString(), "aaaaaaaaaa");
 		
 		dataService.addPayView(payView);
+		dataService.findViewById("");
 	}
 }
