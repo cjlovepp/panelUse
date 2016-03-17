@@ -6,8 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,12 +20,10 @@ import javax.swing.JToolBar;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.dom4j.Element;
-
 import com.src.entity.ButtonEditor;
 import com.src.entity.ButtonRenderer;
-import com.src.entity.MyTableButton;
 import com.src.entity.User;
+import com.src.entity.modelChange;
 import com.src.entity.myModel;
 import com.src.service.DataService;
 
@@ -56,8 +52,6 @@ public class mainframe {
 	public mainframe() {
 		f = new JFrame("系統主界面");
 
-		// ImageIcon icon = createImageIcon("images/middle.gif");
-
 		// =================主页签控件初始化=======================================
 		JPanel mainPanel = new JPanel();
 		BorderLayout bord = new BorderLayout();
@@ -73,11 +67,13 @@ public class mainframe {
 		mainPanel.add(BorderLayout.NORTH, toolBar);
 		mainPanel.add(BorderLayout.CENTER, jScrollPane);
 		
+		jTable.setFillsViewportHeight(true);
 		jTable.setRowHeight(35);
 		jTable.getColumn("操作").setWidth(100);
+		jTable.getModel().addTableModelListener(new modelChange());
 		
 		jTable.getColumn("操作").setCellRenderer(new ButtonRenderer());
-		//jTable.getColumn("操作").setCellEditor(new ButtonEditor(new JTextField()));
+		jTable.getColumn("操作").setCellEditor(new ButtonEditor(new JTextField()));
 		
 		
 		//查询按钮事件

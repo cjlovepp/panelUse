@@ -7,66 +7,62 @@ import java.util.EventObject;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
 public class ButtonEditor extends DefaultCellEditor {
 	
-    protected JButton button; 
-    private String label;
-    private boolean isPushed;
+	private JPanel panel;
+	private JButton delBtn;
+	private JButton printBtn;
+	private Boolean isPushed;
+	
     
 //    private JPanel 
   
     public ButtonEditor(JTextField checkBox) {
         super(checkBox);  
         this.setClickCountToStart(1);  
-        button = new JButton();  
-        button.setOpaque(true);  
-        button.addActionListener(new ActionListener() {  
-  
-            public void actionPerformed(ActionEvent e) {  
-                fireEditingStopped();  
-            }  
-        });  
-  
-    }  
+        this.delBtn = new JButton("删除");
+        
+		this.printBtn = new JButton("打印");
+		
+		
+		this.panel = new JPanel();
+		this.panel.add(this.delBtn);
+		this.panel.add(this.printBtn);
+    }
   
     
     public Component getTableCellEditorComponent(final JTable table, Object value,  
             boolean isSelected,int row, int column) {
-        if (isSelected) {  
-            button.setForeground(table.getSelectionForeground());  
-            button.setBackground(table.getSelectionBackground());  
-        } else {  
-            button.setForeground(table.getForeground());  
-            button.setBackground(table.getBackground());  
-        }  
-        label = (value == null) ? "" : value.toString();  
-        button.setText(label);  
-        button.addActionListener(new ActionListener() {  
-  
-            @Override  
-            public void actionPerformed(ActionEvent e) {  
-                System.out.println(table.getSelectedRow()) ;  
-                System.out.println(table.getSelectedColumn()) ;  
-            }  
-        });  
+    	
+    	final String cc = row+","+column+")";
+    	
+    	this.delBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				JOptionPane.showMessageDialog(null, "del"+cc);
+			}
+		});
+    	
+    	this.printBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JOptionPane.showMessageDialog(null, "print"+cc);
+			}
+		});
+        
         isPushed = true;  
-        return button;  
-    }  
-  
-    public Object getCellEditorValue() {
-        if (isPushed) {  
-            //   
-            //   
-           // JOptionPane.showMessageDialog(button, label + ": Ouch!");  
-            // System.out.println(label + ": Ouch!");  
-        }  
-        isPushed = false;  
-        return new String(label);  
-    }  
+        return this.panel;  
+    }
   
     public boolean stopCellEditing() {  
         isPushed = false;  
